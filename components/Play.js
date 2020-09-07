@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import 'APlayer/dist/APlayer.min.css';
+import 'aplayer/dist/APlayer.min.css';
 import APlayer from 'aplayer';
 const Play = props => {
     useEffect(()=>{
