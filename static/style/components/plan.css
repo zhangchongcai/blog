@@ -1,0 +1,29 @@
+.plan-box{
+    position: relative;
+    cursor: pointer;
+}
+.plan-text{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.2);
+    line-height: 2;
+    font-size: 14px;
+    color: #fff;
+    padding: 0 10px;
+    font-weight: bold;
+    text-align: center;
+}
+.daily-title{
+    font-size: 16px;
+    padding: 1rem 0;
+}
+.daily-content{
+    text-indent: 2em;
+}
+.daily-box{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,31 @@
+.user-info{
+    width: 320px;
+    position: absolute;
+    background-color: #fff;
+    top: 5rem;
+    left: -140px;
+    border-radius: 5px;
+    padding: 20px 20px 10px;
+    box-shadow: 0 1px 4px rgba(89, 90, 89, 0.28);
+    box-sizing: border-box;;
+    transition: all .3s;
+    visibility: hidden;
+    opacity:0;
+}
+.user-info .name-warp{
+    text-align: center;
+    font-size: 16px;
+    color: #1e90ff;
+}
+.user-info .brand-box {
+    display: flex;
+}
+.user-info .brand-box .brand-item{
+    flex: 1;
+    text-align: center;
+    border-top: 1px solid #f5f7fa;
+}
+.user-infon .my-icon{
+    padding: 0 .5rem;
+    font-size: 1rem;
+}

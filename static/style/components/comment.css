@@ -1,0 +1,18 @@
+.comment-box{
+    display: flex;
+}
+.comment-avatar {
+    display: flex;
+    justify-content: flex-end;
+    width: 60px;
+    padding-right: 10px;
+}
+.comment-avatar img{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+.comment-list{
+    flex: 1;
+    padding-right: 15px;
+}

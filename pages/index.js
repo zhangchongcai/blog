@@ -1,65 +1,110 @@
+import React,{ useState, useRef, useEffect } from 'react'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-
-export default function Home() {
+import Link from 'next/link'
+import { List, Row, Col } from 'antd'
+import Header from '../components/Header'
+import SideBar from '../components/SideBar'
+import Axios from 'axios'
+import Fotter from '../components/Footer' // 底部内容
+import Marked from '../components/Marked'
+import Slide from  '../components/Slide'
+import dynamic from 'next/dynamic'
+const APlayer = dynamic(
+  () => import('../components/Play'),
+  { ssr: false }
+)
+import api from '../api/index.js'
+import MyBackTop from '../components/BackTop'
+import { 
+  FieldTimeOutlined, 
+  VideoCameraAddOutlined,
+  FireOutlined
+} from '@ant-design/icons'
+import '../static/style/pages/index.css'
+const Home = props => {
+  const [ mylist , setMylist ] = useState(props.articleList)
+  const aplay = useRef(null)
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Home</title>
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+      <Header />
+      <div>
+        {/* <Row className='banner' type='flex' justify='center'>
+          <Col xs={24} sm={24} md={16} lg={17} xl={14}> */}
+            <Slide
+                images={props.sildeList}
+            />
+            {/* </Col>
+        </Row> */}
+        <Row className='comm-main' justify='center'>
+          <Col className='comm-left' xs={24} sm={24} md={16} lg={18} xl={14}>
+            <div>
+              <List
+                header={<div>最新日志</div>}
+                itemLayout="vertical"
+                dataSource={mylist}
+                renderItem={item => (
+                  <List.Item>
+                    <div className="list-title">
+                      <Link href={{pathname:'/detailed', query:{id:item.id}}}>
+                      <a>{item.title}</a>
+                      </Link>
+                    </div>
+                    <div className="list-icon">
+                      <span><FieldTimeOutlined />{item.addTime}</span>
+                      <span><VideoCameraAddOutlined /> {item.typeName}</span>
+                      <span><FireOutlined /> {item.view_count}</span>
+                    </div>
+                    <div className="list-context">
+                        <Marked markdownContent={item.introduce} />
+                    </div>  
+                  </List.Item>
+                )}
+              />    
+            </div>
+          </Col>
+          <Col className='comm-right' xs={0} sm={0} md={7} lg={5} xl={4}>
+            <SideBar daily={props.daily}/>
+          </Col>
+        </Row>
+        <Fotter />
+        <MyBackTop />
+      </div>
+      <APlayer songs={props.songs}/>
+  </div>
   )
 }
+Home.getInitialProps = async () => {
+  // 我的服务器api
+  const slideRes = await api.slideAPI.list()
+  const articleRes = await api.articleAPI.list()
+  // 每日一句
+  const dailyPromise = new Promise((resolve) => {
+    Axios('http://api.youngam.cn/api/one.php').then((res) => {
+        resolve(res.data)
+    })
+  })
+  const songPromise = new Promise((resolve) => {
+    Axios('https://v1.hitokoto.cn/nm/summary/26830207,862862104,426881503,29027056,31134451,35331626,1301861960,514053624,550124213,22682066,1371939273,473940907,28582373?lyric=true&common=true')
+    .then(res => resolve(res))
+  })
+  const songRes = await songPromise
+  const dailyRes = await dailyPromise
+  const data = {
+    sildeList: slideRes.data.map(item=>item.url),
+    articleList: articleRes.data
+  }
+  // 每日一句
+  if (dailyRes.code = 200) {
+    data.daily = dailyRes.data[0]
+  }
+  if (songRes.data.code == 200) {
+    data.songs = songRes.data.songs
+  } else {
+    data.songs = []
+  }
+  return data
+}
+export default Home

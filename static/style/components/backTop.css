@@ -1,0 +1,16 @@
+.back-top-box{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 20px 0 rgba(18, 141, 244, 0.08);
+    border-radius: 5px;
+    transition: all .3s;
+}
+.back-top-box:hover{
+    color: #1890ff;
+    background: #e6f7ff;
+}
