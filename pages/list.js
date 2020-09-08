@@ -11,10 +11,8 @@ const APlayer = dynamic(
   { ssr: false }
 )
 import Marked from '../components/Marked'
-import Axios from 'axios'
-import servicePath from '../api/apiUrl'
 import Link from 'next/link'
-
+import api from '../api'
 import '../static/style/pages/list.css'
 import { 
     FieldTimeOutlined, 
@@ -22,17 +20,14 @@ import {
     FireOutlined
   } from '@ant-design/icons'
 const myList = (props) => {
-  const [ mylist , setMylist ] = useState(props.data)
-  useEffect(() => {
-    setMylist(props.data)
-  })
+  const [ mylist , setMylist ] = useState(props.articleList)
   return (
     <div>
       <Head>
         <title>List</title>
       </Head>
       <div className="list-body">
-        <Header />
+        <Header navArray={props.navArray} />
         <Row className='comm-main' type='flex' justify='center'>
           <Col className='comm-left' xs={24} sm={24} md={16} lg={18} xl={14}>
             <div className='bread-div'>
@@ -77,11 +72,14 @@ const myList = (props) => {
 }
 myList.getInitialProps = async (context) => {
   let id = context.query.id
-  const result = new Promise((resolve) => {
-    Axios(servicePath.getListById + id).then(
-      (res) => resolve(res.data)
-    )
-  })
-  return await result
+  // 列表
+  const listResult =  await api.articleAPI.getListById(id)
+  // 菜单
+  const typeInfoRes = await api.articleAPI.getTypeInfo()
+  const data = { 
+    articleList: listResult.data,
+    navArray: typeInfoRes.data
+  }
+  return  data
 }
 export default myList

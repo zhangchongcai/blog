@@ -1,15 +1,32 @@
 import request from '../http'
-import Meta from 'antd/lib/card/Meta'
 
 const PREFIX = 'article'
 
 const articleAPI = {
+    getTypeInfo() {
+        return request (
+            `getTypeInfo`,
+            'get',
+        )
+    },
     list() {
-        return request(
+        return request (
             `${PREFIX}/list`,
             'post',
         )
     },
+    getById(id) {
+        return request (
+            `${PREFIX}/getById/` + id,
+            'get'
+        )
+    },
+    getListById(id) {
+        return request (
+            `${PREFIX}/getListById/` + id,
+            'get'
+        )
+    }
 }
 
 export default {

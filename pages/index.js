@@ -29,7 +29,7 @@ const Home = props => {
       <Head>
         <title>Home</title>
       </Head>
-      <Header />
+      <Header navArray={props.navArray} />
       <div>
         {/* <Row className='banner' type='flex' justify='center'>
           <Col xs={24} sm={24} md={16} lg={17} xl={14}> */}
@@ -77,25 +77,30 @@ const Home = props => {
   )
 }
 Home.getInitialProps = async () => {
-  // 我的服务器api
+  // 轮播图
   const slideRes = await api.slideAPI.list()
+  // 文章列表
   const articleRes = await api.articleAPI.list()
+  // 菜单
+  const typeInfoRes = await api.articleAPI.getTypeInfo()
+  const data = {
+    sildeList: slideRes.data.map(item=>item.url),
+    articleList: articleRes.data,
+    navArray: typeInfoRes.data
+  }
   // 每日一句
   const dailyPromise = new Promise((resolve) => {
     Axios('http://api.youngam.cn/api/one.php').then((res) => {
         resolve(res.data)
     })
   })
+  // 歌曲
   const songPromise = new Promise((resolve) => {
     Axios('https://v1.hitokoto.cn/nm/summary/26830207,862862104,426881503,29027056,31134451,35331626,1301861960,514053624,550124213,22682066,1371939273,473940907,28582373?lyric=true&common=true')
     .then(res => resolve(res))
   })
   const songRes = await songPromise
   const dailyRes = await dailyPromise
-  const data = {
-    sildeList: slideRes.data.map(item=>item.url),
-    articleList: articleRes.data
-  }
   // 每日一句
   if (dailyRes.code = 200) {
     data.daily = dailyRes.data[0]

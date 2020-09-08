@@ -3,28 +3,16 @@ import '../static/style/components/header.css'
 import { Row, Col, Message, Modal, Input, Button, Avatar } from 'antd'
 import UserInfo from "./UserInfo";
 import Router from 'next/router'
-import Axios from 'axios'
-import servicePath from '../api/apiUrl'
+import api from '../api'
 import {
     UserOutlined,
     KeyOutlined,
     WeiboCircleOutlined
 } from '@ant-design/icons'
-const Header = () => {
-    const [navArray, setNavArray] = useState([])
+const Header = props => {
     const [vistible, setVistible] = useState(false)
     const [userName, setUserName] = useState('')
     const [passWord, setPassWord] = useState(false)
-    useEffect(() => {
-        const fetchData = async () => {
-            const result = await Axios(servicePath.getTypeInfo).then(
-                (res) => {
-                return res.data.data
-            }) 
-            setNavArray(result)
-        } 
-        fetchData()
-    }, []);
     const handleClick = (key) => {
         if(key == 1 ){
             Router.push('./')
@@ -100,7 +88,7 @@ const Header = () => {
                     <div className='menu-box'
                     >
                         {
-                            navArray.map((item) => {
+                            props.navArray.map((item) => {
                                 return(
                                     <a className='menu-item' key={item.id} onClick={() => handleClick(item.id)}>
                                         <span className='iconfont' dangerouslySetInnerHTML={{ __html: item.iconFont }}></span>
@@ -117,4 +105,5 @@ const Header = () => {
         </div>
     )
 }
+
 export default Header

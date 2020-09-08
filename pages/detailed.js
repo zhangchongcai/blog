@@ -14,12 +14,12 @@ import {
   FireOutlined
 } from '@ant-design/icons'
 
-import Axios from 'axios'
-import servicePath from '../api/apiUrl'
+import api from '../api'
 import '../static/style/pages/detailed.css'
 import 'highlight.js/styles/monokai-sublime.css';
 
-const Detailed = (props) => {
+const Detailed = props => {
+  const [article ,setAticle] = useState(props.article)
   const tocify = new Tocify()
   const renderer = new marked.Renderer();
   renderer.heading = function(text, level, raw) {
@@ -28,7 +28,6 @@ const Detailed = (props) => {
       return `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
   };
   marked.setOptions({
-
     renderer: renderer,
     gfm: true,
     pedantic: false,
@@ -37,39 +36,38 @@ const Detailed = (props) => {
     breaks: false,
     smartLists: true,
     smartypants: false,
-
     highlight: function (code) {
       return hljs.highlightAuto(code).value;
     }
 
   }); 
-  let markedContent = marked(props.article_content)
+  let markedContent = marked(article.article_content)
   return (
     <>
       <Head>
         <title>博客详细页</title>
       </Head>
-      <Header />
+      <Header navArray={props.navArray}/>
       <Row className="detail-body" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
             <div>
               <div className="bread-div">
                 <Breadcrumb>
                   <Breadcrumb.Item><a href="/">首页</a></Breadcrumb.Item>
-                  <Breadcrumb.Item>{props.typeName}</Breadcrumb.Item>
-                  <Breadcrumb.Item>{props.title}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{article.typeName}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{article.title}</Breadcrumb.Item>
                 </Breadcrumb>
               </div>
 
              <div>
                 <div className="detailed-title">
-                {props.title}
+                {article.title}
                 </div>
 
                 <div className="list-icon center">
-                  <span><FieldTimeOutlined /> {props.addTime}</span>
-                  <span><VideoCameraAddOutlined />{props.title}</span>
-                  <span><FireOutlined /> {props.view_count}人</span>
+                  <span><FieldTimeOutlined /> {article.addTime}</span>
+                  <span><VideoCameraAddOutlined />{article.title}</span>
+                  <span><FireOutlined /> {article.view_count}人</span>
                 </div>
                 <div className='detailed-content'>
                   <div dangerouslySetInnerHTML = {{__html: markedContent}}></div>
@@ -98,10 +96,15 @@ const Detailed = (props) => {
   )
 }
 Detailed.getInitialProps = async(context) => {
+  // 菜单
+  const typeInfoRes = await api.articleAPI.getTypeInfo()
+  // 文章
   let id = context.query.id
-  const promise = new Promise((resolve) => {
-    Axios(servicePath.getArticleById + id).then((res) => resolve(res.data.data))
-  })
-  return promise
+  const articleRes = await api.articleAPI.getById(id)
+  const data = {
+    article: articleRes.data,
+    navArray: typeInfoRes.data
+  }
+  return data
 }
 export default Detailed

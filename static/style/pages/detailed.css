@@ -18,6 +18,25 @@
     padding: 1.3rem;
     font-size: 1rem;
 }
+.detailed-content h2, h3 {
+    padding-left: 20px;
+    line-height: 1.5;
+    margin: 20px 0;
+    font-weight: bold;
+    position: relative;
+}
+.detailed-content h2::before , h3::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: #1890ff;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 1px 0 12px 0 #91d5ff;
+}
 pre{
     display: block;
     background-color:#f3f3f3;
