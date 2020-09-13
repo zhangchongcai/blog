@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import Head from 'next/head'
 import {Row, Col, Breadcrumb, Affix, Divider } from 'antd'
 import Header from '../components/Header'
@@ -21,6 +21,7 @@ import 'highlight.js/styles/monokai-sublime.css';
 
 const Detailed = props => {
   const [article ,setAticle] = useState(props.article)
+  const [navArray ,setNavArray] = useState()
   const tocify = new Tocify()
   const renderer = new marked.Renderer();
   renderer.heading = function(text, level, raw) {
@@ -48,7 +49,7 @@ const Detailed = props => {
       <Head>
         <title>博客详细页</title>
       </Head>
-      {/* <Header navArray={props.navArray}/> */}
+      {/* <Header navArray={navArray}/> */}
       <Row className="detail-body" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
             <div>
@@ -98,7 +99,7 @@ const Detailed = props => {
 }
 Detailed.getInitialProps = async(context) => {
   // 菜单
-  // const typeInfoRes = await api.articleAPI.getTypeInfo()
+  const typeInfoRes = await api.articleAPI.getTypeInfo()
   // 文章
   let id = context.query.id
   const articleRes = await api.articleAPI.getById(id)
@@ -112,7 +113,7 @@ Detailed.getInitialProps = async(context) => {
   // const articleRes = await getById
   const data = {
     article: articleRes.data,
-    // navArray: typeInfoRes.data
+    navArray: typeInfoRes.data
   }
   return data
 }

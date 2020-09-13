@@ -43,7 +43,6 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    console.log('拦截-------', response)
     const res = response.data
     return res
   },
