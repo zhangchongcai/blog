@@ -98,18 +98,18 @@ const Detailed = props => {
 }
 Detailed.getInitialProps = async(context) => {
   // 菜单
-  // const typeInfoRes = await api.articleAPI.getTypeInfo()
+  const typeInfoRes = await api.articleAPI.getTypeInfo()
   // 文章
   let id = context.query.id
-  // const articleRes = await api.articleAPI.getById(id)
-  const typeInfo = new Promise(resolve => {
-    return Axios('http://127.0.0.1:7001/default/getTypeInfo').then(res=> resolve(res.data))
-  })
-  const typeInfoRes = await typeInfo
-  const getById = new Promise((resolve) => {
-    return Axios('http://127.0.0.1:7001/default/article/getById/'+id).then(res=> resolve(res.data))
-  })
-  const articleRes = await getById
+  const articleRes = await api.articleAPI.getById(id)
+  // const typeInfo = new Promise(resolve => {
+  //   return Axios('http://127.0.0.1:7001/default/getTypeInfo').then(res=> resolve(res.data))
+  // })
+  // const getById = new Promise((resolve) => {
+  //   return Axios('http://127.0.0.1:7001/default/article/getById/'+id).then(res=> resolve(res.data))
+  // })
+  // const typeInfoRes = await typeInfo
+  // const articleRes = await getById
   const data = {
     article: articleRes.data,
     navArray: typeInfoRes.data
