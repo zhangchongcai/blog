@@ -21,7 +21,6 @@ import 'highlight.js/styles/monokai-sublime.css';
 
 const Detailed = props => {
   const [article ,setAticle] = useState(props.article)
-  const [navArray ,setNavArray] = useState()
   const tocify = new Tocify()
   const renderer = new marked.Renderer();
   renderer.heading = function(text, level, raw) {
@@ -49,7 +48,7 @@ const Detailed = props => {
       <Head>
         <title>博客详细页</title>
       </Head>
-      {/* <Header navArray={navArray}/> */}
+      <Header navArray={props.navArray}/>
       <Row className="detail-body" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
             <div>
@@ -103,14 +102,6 @@ Detailed.getInitialProps = async(context) => {
   // 文章
   let id = context.query.id
   const articleRes = await api.articleAPI.getById(id)
-  // const typeInfo = new Promise(resolve => {
-  //   return Axios('http://127.0.0.1:7001/default/getTypeInfo').then(res=> resolve(res.data))
-  // })
-  // const getById = new Promise((resolve) => {
-  //   return Axios('http://127.0.0.1:7001/default/article/getById/'+id).then(res=> resolve(res.data))
-  // })
-  // const typeInfoRes = await typeInfo
-  // const articleRes = await getById
   const data = {
     article: articleRes.data,
     navArray: typeInfoRes.data

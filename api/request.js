@@ -5,7 +5,7 @@ import baseURL from './base_url'
 const service = axios.create({
   baseURL, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
-  // AccessControlAllowOrigin: '*',
+  AccessControlAllowOrigin: '*',
   timeout: 15000 // request timeout
 })
 
