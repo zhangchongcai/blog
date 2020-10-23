@@ -26,6 +26,12 @@ const articleAPI = {
             `${PREFIX}/getListById/` + id,
             'get'
         )
+    },
+    getListByType(type) {
+        return request (
+            `${PREFIX}/getListByType/` + type,
+            'get'
+        )
     }
 }
 

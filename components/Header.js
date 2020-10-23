@@ -3,7 +3,6 @@ import '../static/style/components/header.css'
 import { Row, Col, Message, Modal, Input, Button, Avatar } from 'antd'
 import UserInfo from "./UserInfo";
 import Router from 'next/router'
-import api from '../api'
 import {
     UserOutlined,
     KeyOutlined,
@@ -29,53 +28,54 @@ const Header = props => {
         setVistible(false)
     }
     return(
-        <div className='header'>
-            <Modal
-                title="登录"
-                visible={vistible}
-                onCancel={onCancel}
-                footer={false}
-            >
-                <Input
-                        id="userName"
-                        size="large"
-                        placeholder="Enter your userName"
-                        prefix={<UserOutlined />}
-                        onChange={(e)=>{setUserName(e.target.value)}}
-                    /> 
-                    <br/><br/>
-                    <Input.Password
-                        id="password"
-                        size="large"
-                        placeholder="Enter your password"
-                        prefix={<KeyOutlined />}
-                        onChange={(e)=>{setPassWord(e.target.value)}}
-                    />
-                    <div className='login-footer'>
-                        <a style={{padding: '10px 0'}}>忘记密码</a>
-                        <Button
-                            block onClick={checkLogin} 
-                            type="primary"
-                            size="large" 
-                            style={{width: '25%', margin: '0 auto', borderRadius: '50px'}}
-                        > Login in 
-                        </Button>
-                        <div style={{textAlign: 'center', padding: '10px 0'}}>
-                            <span>登录即同意</span>
-                            <a>
-                                「软件许可服务协议」
-                            </a>
-                            <div>
-                                <Avatar size={28} icon={<WeiboCircleOutlined />} className="account"  />
+        <div>
+            <div className='header'>
+                <Modal
+                    title="登录"
+                    visible={vistible}
+                    onCancel={onCancel}
+                    footer={false}
+                >
+                    <Input
+                            id="userName"
+                            size="large"
+                            placeholder="Enter your userName"
+                            prefix={<UserOutlined />}
+                            onChange={(e)=>{setUserName(e.target.value)}}
+                        /> 
+                        <br/><br/>
+                        <Input.Password
+                            id="password"
+                            size="large"
+                            placeholder="Enter your password"
+                            prefix={<KeyOutlined />}
+                            onChange={(e)=>{setPassWord(e.target.value)}}
+                        />
+                        <div className='login-footer'>
+                            <a style={{padding: '10px 0'}}>忘记密码</a>
+                            <Button
+                                block onClick={checkLogin} 
+                                type="primary"
+                                size="large" 
+                                style={{width: '25%', margin: '0 auto', borderRadius: '50px'}}
+                            > Login in 
+                            </Button>
+                            <div style={{textAlign: 'center', padding: '10px 0'}}>
+                                <span>登录即同意</span>
+                                <a>
+                                    「软件许可服务协议」
+                                </a>
+                                <div>
+                                    <Avatar size={28} icon={<WeiboCircleOutlined />} className="account"  />
+                                </div>
+                            </div>
+                            <div style={{textAlign: 'right'}}>
+                                <a>注册</a>
                             </div>
                         </div>
-                        <div style={{textAlign: 'right'}}>
-                            <a>注册</a>
-                        </div>
-                    </div>
 
-            </Modal>
-            <Row justify='center'>
+                </Modal>
+                <Row justify='center'>
                 <Col xs={24} sm={24} md={8} lg={8} xl={9}>
                     <span className='header-logo'>我的博客</span>
                     <span className='header-txt'>学习前端，网站开发中ing。。。</span>
@@ -101,7 +101,8 @@ const Header = props => {
                     </div>
                 </Col>
             </Row>
-
+            </div>
+            <div style={{height: '3.5rem'}} />     
         </div>
     )
 }

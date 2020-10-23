@@ -49,7 +49,7 @@ const Detailed = props => {
         <title>博客详细页</title>
       </Head>
       <Header navArray={props.navArray}/>
-      <Row className="detail-body" justify="center">
+      <Row justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
             <div>
               <div className="bread-div">
